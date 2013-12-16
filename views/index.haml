@@ -1,0 +1,12 @@
+!!!
+%html
+  %head
+  %body
+    %h2 Users
+    %ul
+      - @users.each do |user|
+        %li #{user[:alias]} - #{(user[:active]) ? 'active' : 'inactive'}
+    %h2 Messages
+    %ul
+      - @messages.each do |message|
+        %li #{message[:content]} - #{message[:created_at]}
