@@ -24,7 +24,6 @@ class Adapter
         message_to_send = "#{registered_user[:alias]}: #{msg}"
         recipient_numbers_in_array.each do |recipient_number|
           twilio_message = twilio_account.sms.messages.create({:from => '+19496827852', :to => recipient_number.to_s, :body => message_to_send})
-          puts twilio_message
         end
       end
     end

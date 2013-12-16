@@ -13,7 +13,6 @@ class Adapter
     end
 
     def send_text(recipient_number, msg)
-      puts "<<< Sending message to #{recipient_number}."
       Message.create(:content => msg.to_s)
       api.sms(recipient_number.to_s, msg.to_s)
     end
@@ -40,9 +39,7 @@ class Adapter
     def forward_text_to_group
       recipients = active_users.exclude(:sms_number => parser.from_number.to_i)
       recipient_numbers_in_array = recipients.map(:sms_number)
-      puts "ATTEMPTING TO SEND TO #{recipient_numbers_in_array}"
       message_to_send = "#{registered_user[:alias]}: #{parser.message}"
-      puts "<<< sending out message from alias #{registered_user[:alias]}"
       recipient_numbers_in_array.each do |recipient_number|
         send_text(recipient_number.to_s, message_to_send)
       end

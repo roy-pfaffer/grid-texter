@@ -28,14 +28,9 @@ class App < Sinatra::Base
   end
 
   get '/sms-gateway' do
-    puts "<<< DATA RECEIVED: #{params}"
-    puts "<<< parser.command? #{parser.command?}"
-    puts "<<< parse.sent_command: #{parser.sent_command}" if parser.command?
     if (registered_user && user_active?)
-      puts "<<< ACTIVE USER"
       (parser.command?) ? commander.do : sender.forward_text_to_group
     elsif (parser.command? && parser.sent_command == 'join')
-      puts "<<< NOT AN ACTIVE USER"
       join_user
     end
   end
@@ -44,10 +39,8 @@ class App < Sinatra::Base
 
   def join_user
     if (registered_user)
-      puts "<<< ACTIVATING PREVIOUSLY REGISTERED USER"
       registered_user.update(:active => true)
     else
-      puts "<<< CREATING AND ACTIVATING NEW USER"
       User.create(:alias => parser.original_alias,
                   :sms_number => parser.from_number.to_i,
                   :active => true)
